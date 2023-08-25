@@ -2,26 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  height: 100%;
+  background-color: #f8f8f8;
+}
+.form-control {
+  fill: none;
+  background: transparent;
+  border: none;
+}
+textarea:focus,
+input:focus {
+  outline: none;
+}
+input.input-box {
+  background-color: rgb(243 244 246);
+}
+input.hash {
+  background-color: #f3f4f6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+/* input.comment::placeholder {
+  font-size: 20px;
+} */
