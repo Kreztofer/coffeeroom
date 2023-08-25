@@ -2,7 +2,9 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import Navbar from './components/navbar/Navbar';
-import { useSearchParams } from 'next/navigation';
+import ToasterProvider from './providers/ToasterProvider';
+import LoginModal from './components/modals/LoginModal';
+import RegisterModal from './components/modals/RegisterModal';
 
 const font = Roboto({
   subsets: ['latin'],
@@ -20,6 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <ToasterProvider />
+        <LoginModal />
+        <RegisterModal />
         <Navbar />
         <div className="pt-[75px]">{children}</div>
       </body>
