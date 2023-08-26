@@ -1,4 +1,4 @@
-export const handleFriendsText = (numberOfFriends: number) => {
+export const handleFriendsText = (numberOfFriends: number | undefined) => {
   if (numberOfFriends === 1) {
     return `${numberOfFriends} friend`;
   } else {
