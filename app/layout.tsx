@@ -7,6 +7,7 @@ import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
 import getCurrentUser from './actions/getCurrentUser';
 import ProfileModal from './components/modals/ProfileModal';
+import EditProfileModal from './components/modals/EditProfileModal';
 
 const font = Roboto({
   subsets: ['latin'],
@@ -27,8 +28,9 @@ export default async function RootLayout({
       <body className={font.className}>
         <ToasterProvider />
         <LoginModal />
-        <ProfileModal currentUser={currentUser}/>
         <RegisterModal />
+        <EditProfileModal currentUser={currentUser} />
+        <ProfileModal currentUser={currentUser} />
         <Navbar currentUser={currentUser} />
         <div className="pt-[75px]">{children}</div>
       </body>

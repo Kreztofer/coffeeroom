@@ -30,12 +30,11 @@ model User {
   dribbble      String?
   linkedin      String?
   location      String?
-  occupation      String?
+  occupation    String?
   viewedProfile      Int?
   impressions      Int?
 
   posts         Post[]
-  comments      String[]
   notifications Notification[]
 }
 
@@ -48,6 +47,10 @@ model Post {
   userId             String @db.ObjectId
   likedIds           String[] @db.ObjectId
   postImage          String?
+  location           String?
+  comments           String[]
+  creatorsImage      String?
+
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

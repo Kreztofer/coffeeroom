@@ -40,7 +40,7 @@ const Profile: React.FC<ProfileProps> = ({ currentUser }) => {
       className="bg-myGrey gap-[10px] rounded-[25px] flex justify-between items-center cursor-pointer px-3 py-2 relative hover:shadow-md transition"
     >
       <div className="flex gap-[10px] items-center">
-        <Avater />
+        <Avater src={currentUser?.image || currentUser?.profileImage} />
         <p className="text-[14px]">{currentUser?.name}</p>
       </div>
       {isOpen ? <FaChevronUp /> : <FaChevronDown />}

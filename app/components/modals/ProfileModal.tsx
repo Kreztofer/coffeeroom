@@ -60,13 +60,24 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ currentUser }) => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-[25px]">
-        <Image
-          className="rounded-full h-[100px] w-[100px]"
-          height="100"
-          width="100"
-          alt="logo"
-          src={currentUser?.image || '/images/placeholder.jpg'}
-        />
+        {currentUser?.image ? (
+          <Image
+            className="rounded-full h-[100px] w-[100px]"
+            height="100"
+            width="100"
+            alt="logo"
+            src={currentUser?.image || '/images/placeholder.jpg'}
+          />
+        ) : (
+          <Image
+            className="rounded-full h-[100px] w-[100px]"
+            height="100"
+            width="100"
+            alt="logo"
+            src={currentUser?.profileImage || '/images/placeholder.jpg'}
+          />
+        )}
+
         <div>
           <p className="font-bold text-lg">{currentUser?.name}</p>
           <p className="font-extralight text-gray-400">
@@ -192,7 +203,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ currentUser }) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              ref={handleNavigation(item.name)}
+              // @ts-ignore comment
+              href={handleNavigation(item.name)}
               className="flex px-2 py-4 cursor-pointer hover:bg-gray-100 hover:rounded-md items-center"
               key={item.id}
             >
