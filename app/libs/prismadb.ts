@@ -7,4 +7,6 @@ declare global {
 const client = globalThis.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== 'production') globalThis.prisma = client;
 
+// hope this works
+
 export default client;
