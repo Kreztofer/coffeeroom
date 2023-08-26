@@ -12,12 +12,16 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { OCCUPATIONS } from '@/app/context';
 import { SafeUser } from '@/app/types';
+import useLoadingModal from '@/app/hooks/useLoading';
+import useProfileLoadingModal from '@/app/hooks/useProfileLoading';
 
 interface EditProfileProps {
   currentUser?: SafeUser | null;
 }
 const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
+  const loading = useLoadingModal();
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const [socialId, setSocialId] = useState<number>();
   const [filebase64, setFileBase64] = useState<string>('');
@@ -32,10 +36,10 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
     linkedin: true,
   });
 
-  console.log(filebase64 === '');
-
   const [toggleBtn, setToggleBtn] = useState(false);
   const editProfileModal = useEditProfileModal();
+
+  const profileLoading = useProfileLoadingModal();
 
   const {
     register,
@@ -118,7 +122,13 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    if (filebase64 === '') {
+      loading.onOpen();
+    } else {
+      profileLoading.onOpen();
+      loading.onOpen();
+    }
+
     axios
       .put('/api/updateprofile', {
         ...data,
@@ -137,8 +147,9 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
         }
       })
       .finally(() => {
-        setIsLoading(false);
-        router.refresh();
+        location.reload();
+        profileLoading.onClose();
+        loading.onClose();
       });
   };
   const bodyContent = (
@@ -289,10 +300,15 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
 
           <div className="flex gap-10">
             <button
+              disabled={loading.isLoading}
               onClick={handleSubmit(onSubmit)}
               className="bg-[#00AFF2] transition-all duration-200 hover:scale-[1.02] shadow-md text-white px-9 py-2"
             >
-              Save
+              {loading.isLoading === true ? (
+                <p className="loader"></p>
+              ) : (
+                <p> Save</p>
+              )}
             </button>
             <button
               onClick={handleReset}
@@ -319,7 +335,6 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
       body={bodyContent}
       footer={footerContent}
       edit
-      isLoading={isLoading}
     />
   );
 };

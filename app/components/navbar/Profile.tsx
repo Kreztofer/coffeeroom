@@ -12,6 +12,8 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { signOut } from 'next-auth/react';
 import useProfileModal from '@/app/hooks/useProfileModal';
 import { SafeUser } from '@/app/types';
+import useLoadingModal from '@/app/hooks/useLoading';
+import useProfileLoadingModal from '@/app/hooks/useProfileLoading';
 
 interface ProfileProps {
   currentUser?: SafeUser | null;
@@ -22,6 +24,8 @@ const Profile: React.FC<ProfileProps> = ({ currentUser }) => {
   const profileModal = useProfileModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
+
+  const profileLoading = useProfileLoadingModal();
 
   const handleProfileModal = () => {
     profileModal.onOpen();
@@ -40,7 +44,12 @@ const Profile: React.FC<ProfileProps> = ({ currentUser }) => {
       className="bg-myGrey gap-[10px] rounded-[25px] flex justify-between items-center cursor-pointer px-3 py-2 relative hover:shadow-md transition"
     >
       <div className="flex gap-[10px] items-center">
-        <Avater src={currentUser?.image || currentUser?.profileImage} />
+        {profileLoading.isLoading ? (
+          <p className="loader2" />
+        ) : (
+          <Avater src={currentUser?.image || currentUser?.profileImage} />
+        )}
+
         <p className="text-[14px]">{currentUser?.name}</p>
       </div>
       {isOpen ? <FaChevronUp /> : <FaChevronDown />}

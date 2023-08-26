@@ -28,7 +28,6 @@ const Modal: React.FC<ModalProps> = ({
   footer,
   disabled,
   edit,
-  isLoading,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -80,7 +79,7 @@ const Modal: React.FC<ModalProps> = ({
           bg-neutral-800/70
         "
       >
-        {isLoading && (
+        {/* {isLoading && (
           <div className="w-[100%] z-[60] bg-neutral-800/40 absolute h-[100%] top-0 left-0 flex items-center justify-center">
             <Image
               src="/images/loading.gif"
@@ -90,7 +89,7 @@ const Modal: React.FC<ModalProps> = ({
               height="100"
             />
           </div>
-        )}
+        )} */}
 
         <div className="w-full h-full">
           <div
