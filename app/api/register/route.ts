@@ -1,37 +1,37 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-import { connectMongoDB } from '@/app/libs/mongodb';
-import User from '@/models/user';
 
-export async function POST(req: Request) {
-  try {
-    const { name, email, password } = await req.json();
+import prisma from '@/app/libs/prismadb';
 
-    await connectMongoDB();
-    let user = await User.findOne({ email });
-    if (user)
-      return NextResponse.json(
-        { message: 'User already Registered' },
-        { status: 401 }
-      );
+export async function POST(request: Request) {
+  const body = await request.json();
+  const { email, name, password } = body;
 
-    const viewedProfile = Math.floor(Math.random() * 10000);
-    const impressions = Math.floor(Math.random() * 10000);
-    const hashedPassword = await bcrypt.hash(password, 10);
+  const checkIfUserExists = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  if (checkIfUserExists) {
+    return NextResponse.json(
+      { message: 'User already Registered' },
+      { status: 401 }
+    );
+  } else {
+    const viewedProfile = Math.floor(Math.random() * 1000);
+    const impressions = Math.floor(Math.random() * 1000);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-    await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      viewedProfile,
-      impressions,
+    const user = await prisma.user.create({
+      data: {
+        email,
+        name,
+        hashedPassword,
+        viewedProfile,
+        impressions,
+      },
     });
 
-    return NextResponse.json({ message: 'User Registered' }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: 'An error occured while registering the user' },
-      { status: 500 }
-    );
+    return NextResponse.json(user);
   }
 }

@@ -5,7 +5,6 @@ import Navbar from './components/navbar/Navbar';
 import ToasterProvider from './providers/ToasterProvider';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
-import getCurrentUser from './actions/getCurrentUser';
 
 const font = Roboto({
   subsets: ['latin'],
@@ -21,14 +20,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
-    const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
         <ToasterProvider />
         <LoginModal />
         <RegisterModal />
-        <Navbar currentUser={currentUser} />
+        <Navbar />
         <div className="pt-[75px]">{children}</div>
       </body>
     </html>

@@ -1,34 +1,35 @@
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
+
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { connectMongoDB } from '../libs/mongodb';
-import User from '@/models/user';
+import prisma from '@/app/libs/prismadb';
 
 export async function getSession() {
   return await getServerSession(authOptions);
 }
+
 export default async function getCurrentUser() {
   try {
     const session = await getSession();
+
     if (!session?.user?.email) {
       return null;
     }
-    await connectMongoDB();
 
-    const myCurrentUser = await User.findOne({
-      email: session.user.email,
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        email: session.user.email as string,
+      },
     });
 
-    if (!myCurrentUser) {
+    if (!currentUser) {
       return null;
     }
-    const currentUser = { ...myCurrentUser };
-    Reflect.deleteProperty(currentUser._doc, 'password');
-    const newUser = currentUser._doc;
+
     return {
-      ...newUser,
-      _id: newUser._id.toString(),
-      createdAt: newUser.createdAt.toISOString(),
-      updatedAt: newUser.updatedAt.toISOString(),
+      ...currentUser,
+      createdAt: currentUser.createdAt.toISOString(),
+      updatedAt: currentUser.updatedAt.toISOString(),
+      emailVerified: currentUser.emailVerified?.toISOString() || null,
     };
   } catch (error: any) {
     return null;
