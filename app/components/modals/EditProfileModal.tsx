@@ -32,6 +32,8 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
     linkedin: true,
   });
 
+  console.log(filebase64 === '');
+
   const [toggleBtn, setToggleBtn] = useState(false);
   const editProfileModal = useEditProfileModal();
 
@@ -118,7 +120,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     axios
-      .post('/api/updateprofile', {
+      .put('/api/updateprofile', {
         ...data,
         id: currentUser?.id,
         socialId: socialId,
