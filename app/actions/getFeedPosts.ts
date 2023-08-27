@@ -10,22 +10,15 @@ export default async function getFeedPosts() {
     }
 
     const feeds = await prisma.post.findMany({
-      include: {
-        user: true,
-      },
       orderBy: {
         createdAt: 'desc',
       },
     });
+    if (!feeds) {
+      return null;
+    }
 
-    const safePosts = feeds.map((post) => ({
-      ...post,
-      id: post.id.toString(),
-      createdAt: post.createdAt.toISOString(),
-      updatedAt: post.updatedAt.toISOString(),
-    }));
-
-    return safePosts;
+    return feeds;
   } catch (error) {
     return null;
   }

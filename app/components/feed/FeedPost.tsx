@@ -54,8 +54,6 @@ const FeedPost: React.FC<FeedPostProps> = ({
   const [count, setCount] = useState(likecount);
   const commentsModal = useCommentsModal();
 
-  console.log(liked);
-
   const { patch, checked } = useAddFriends({
     userId: currentUserId,
     friendId: userId,

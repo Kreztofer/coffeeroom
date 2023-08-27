@@ -3,10 +3,11 @@
 import MyProfile from '../feed/MyProfile';
 import MainFeed from '../feed/MainFeed';
 import { Friends, SafePosts, SafeUser } from '@/app/types';
+import { Post } from '@prisma/client';
 
 interface HomeCardProps {
   currentUser: SafeUser;
-  feed?: SafePosts[] | null;
+  feed?: Post[] | null;
   friendList?: Friends[] | null;
 }
 
@@ -15,16 +16,17 @@ const HomeCard: React.FC<HomeCardProps> = ({
   feed,
   friendList,
 }) => {
+  console.log(feed);
   return (
     <div className="w-full my-10 relative flex justify-between">
       <MyProfile currentUser={currentUser} />
-      {/* <MainFeed
-        main={true}
+      <MainFeed
         feed={feed}
+        main={true}
         currentUser={currentUser}
         currentUserId={currentUser.id}
         toggle="yes"
-      /> */}
+      />
       {/* <AdsAndFriends currentUserId={currentUser.id} friends={friendList} />  */}
     </div>
   );

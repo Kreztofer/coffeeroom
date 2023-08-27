@@ -12,9 +12,12 @@ import Hashtag from '../Hashtag';
 import { useState } from 'react';
 import { SafePosts, SafeUser } from '@/app/types';
 import useLoadingModal from '@/app/hooks/useLoading';
+import usePosts from '@/app/hooks/usePosts';
+import useGetFeeds from '@/app/hooks/useGetFeeds';
+import { Post } from '@prisma/client';
 
 interface MainFeedProps {
-  feed: SafePosts[] | null;
+  feed?: Post[] | null;
   currentUser: SafeUser;
   main: boolean;
   currentUserId: string;
@@ -180,7 +183,13 @@ const MainFeed: React.FC<MainFeedProps> = ({
         </div>
       )}
       {/* feed */}
+
       {feed?.map((item) => (
+        <div key={item.id}>
+          <p>{item.name}</p>
+        </div>
+      ))}
+      {/* {feed?.map((item) => (
         <FeedPost
           key={item.id}
           id={item.id}
@@ -197,7 +206,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           toggle={toggle}
           comments={item.comments}
         />
-      ))}
+      ))} */}
     </div>
   );
 };
