@@ -6,7 +6,7 @@ import { Friends, SafePosts, SafeUser } from '@/app/types';
 
 interface HomeCardProps {
   currentUser: SafeUser;
-  feed: SafePosts[] | null;
+  feed?: SafePosts[] | null;
   friendList?: Friends[] | null;
 }
 
