@@ -26,7 +26,7 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body suppressHydrationWarning={true} className={font.className}>
         <ClientOnly>
           <ToasterProvider />
           <LoginModal />
