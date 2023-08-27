@@ -18,13 +18,13 @@ const HomeCard: React.FC<HomeCardProps> = ({
   return (
     <div className="w-full my-10 relative flex justify-between">
       <MyProfile currentUser={currentUser} />
-      <MainFeed
+      {/* <MainFeed
         main={true}
         feed={feed}
         currentUser={currentUser}
         currentUserId={currentUser.id}
         toggle="yes"
-      />
+      /> */}
       {/* <AdsAndFriends currentUserId={currentUser.id} friends={friendList} />  */}
     </div>
   );
