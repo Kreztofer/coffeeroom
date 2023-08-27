@@ -1,8 +1,14 @@
 import prisma from '@/app/libs/prismadb';
-import { NextResponse } from 'next/server';
+import getCurrentUser from './getCurrentUser';
 
 export default async function getFeedPosts() {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return [];
+    }
+
     const feeds = await prisma.post.findMany({
       include: {
         user: true,
@@ -11,9 +17,6 @@ export default async function getFeedPosts() {
         createdAt: 'desc',
       },
     });
-    if (!feeds) {
-      return null;
-    }
 
     const safePosts = feeds.map((post) => ({
       ...post,
