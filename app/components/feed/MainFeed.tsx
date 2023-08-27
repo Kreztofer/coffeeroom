@@ -11,9 +11,10 @@ import FeedPost from './FeedPost';
 import Hashtag from '../Hashtag';
 import { useState } from 'react';
 import { SafePosts, SafeUser } from '@/app/types';
+import useLoadingModal from '@/app/hooks/useLoading';
 
 interface MainFeedProps {
-  feed?: SafePosts[] | null;
+  feed: SafePosts[] | null;
   currentUser: SafeUser;
   main: boolean;
   currentUserId: string;
@@ -28,12 +29,12 @@ const MainFeed: React.FC<MainFeedProps> = ({
   toggle,
 }) => {
   const router = useRouter();
+  const loading = useLoadingModal();
 
   const [handleFileUpload, setHandleFileUpload] = useState({
     image: false,
     hashtag: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState('');
   const [hashtag, setHashtag] = useState('');
 
@@ -48,12 +49,12 @@ const MainFeed: React.FC<MainFeedProps> = ({
   });
 
   const onPost: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    loading.postOpen();
     axios
       .post('/api/feeds', {
         ...data,
         userId: currentUser?.id,
-        picturePath: imageFile,
+        postImage: imageFile,
         hashtag: hashtag,
       })
       .then(() => {
@@ -65,7 +66,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
         }
       })
       .finally(() => {
-        setIsLoading(false);
+        loading.postClose();
         router.refresh();
       });
   };
@@ -170,9 +171,10 @@ const MainFeed: React.FC<MainFeedProps> = ({
             </div>
             <button
               onClick={handleSubmit(onPost)}
+              disabled={loading.postLoading}
               className="bg-myblue px-[18px] transition duration-150 hover:scale-[1.07] py-1 text-white rounded-full"
             >
-              Post
+              {loading.postLoading ? <p className="loader" /> : <p>Post</p>}
             </button>
           </div>
         </div>
@@ -182,7 +184,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
         <FeedPost
           key={item.id}
           id={item.id}
-          profilePic={item.creatorsImage}
+          profilePic={item.creatorsProfileImage}
           userId={item.userId}
           description={item.description}
           location={item?.location}

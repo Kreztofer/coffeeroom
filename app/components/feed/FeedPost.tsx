@@ -23,7 +23,7 @@ interface FeedPostProps {
   description: string;
   currentUserId: string;
   location: string | null;
-  name: string;
+  name: string | null;
   feedPic: string | null;
   hashtag: string;
   friends?: any;

@@ -24,7 +24,7 @@ export default async function Home() {
       <Container>
         <HomeCard
           currentUser={currentUser}
-          // feed={feed}
+          feed={feed}
           // friendList={friendList}
         />
       </Container>
