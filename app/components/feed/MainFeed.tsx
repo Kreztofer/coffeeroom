@@ -32,6 +32,8 @@ const MainFeed: React.FC<MainFeedProps> = ({
   const router = useRouter();
   const loading = useLoadingModal();
 
+  console.log(feed);
+
   const [handleFileUpload, setHandleFileUpload] = useState({
     image: false,
     hashtag: false,
@@ -181,13 +183,13 @@ const MainFeed: React.FC<MainFeedProps> = ({
         </div>
       )}
       {/* feed */}
-
+      {/* 
       {feed?.map((item) => (
         <div key={item.id}>
           <p>{item.name}</p>
         </div>
-      ))}
-      {/* {feed?.map((item) => (
+      ))} */}
+      {feed?.map((item) => (
         <FeedPost
           key={item.id}
           id={item.id}
@@ -204,7 +206,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           toggle={toggle}
           comments={item.comments}
         />
-      ))} */}
+      ))}
     </div>
   );
 };

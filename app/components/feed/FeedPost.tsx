@@ -48,10 +48,10 @@ const FeedPost: React.FC<FeedPostProps> = ({
   comments,
 }) => {
   const router = useRouter();
-  const liked = Boolean(likes[currentUserId]);
-  const likecount = Object.keys(likes).length;
-  const [isLiked, setIsLiked] = useState<boolean>(liked);
-  const [count, setCount] = useState(likecount);
+  // const liked = Boolean(likes[currentUserId]);
+  // const likecount = Object.keys(likes).length;
+  // const [isLiked, setIsLiked] = useState<boolean>(liked);
+  // const [count, setCount] = useState(likecount);
   const commentsModal = useCommentsModal();
 
   const { patch, checked } = useAddFriends({
@@ -60,32 +60,32 @@ const FeedPost: React.FC<FeedPostProps> = ({
     friends,
   });
 
-  const patchLike = async () => {
-    const data = {
-      userId: currentUserId,
-      postId: id,
-    };
-    await axios
-      .patch('/api/likepost', data)
-      .catch((error: any) => {
-        if (error.response) {
-          toast.error(error.response.data.message);
-        }
-      })
-      .finally(() => {
-        setIsLiked((prev) => !prev);
-        if (isLiked === false) {
-          setCount(count + 1);
-        } else if (isLiked === true) {
-          if (likecount > 0) {
-            setCount(count - 1);
-          } else {
-            setCount(0);
-          }
-        }
-        router.refresh();
-      });
-  };
+  // const patchLike = async () => {
+  //   const data = {
+  //     userId: currentUserId,
+  //     postId: id,
+  //   };
+  //   await axios
+  //     .patch('/api/likepost', data)
+  //     .catch((error: any) => {
+  //       if (error.response) {
+  //         toast.error(error.response.data.message);
+  //       }
+  //     })
+  //     .finally(() => {
+  //       setIsLiked((prev) => !prev);
+  //       if (isLiked === false) {
+  //         setCount(count + 1);
+  //       } else if (isLiked === true) {
+  //         if (likecount > 0) {
+  //           setCount(count - 1);
+  //         } else {
+  //           setCount(0);
+  //         }
+  //       }
+  //       router.refresh();
+  //     });
+  // };
 
   const handleHashtag = (hash: string) => {
     if (hash) {
@@ -175,21 +175,21 @@ const FeedPost: React.FC<FeedPostProps> = ({
         <div className="flex mt-3 items-center justify-between">
           <div className="flex gap-5 items-center">
             <p
-              onClick={() => patchLike()}
+              // onClick={() => patchLike()}
               className="text-[14px] flex items-center gap-1 font-bold"
             >
-              {isLiked ? (
+              {/* {isLiked ? (
                 <AiFillHeart
                   size={20}
                   className="text-[#F72C10] cursor-pointer"
                 />
-              ) : (
-                <AiOutlineHeart
-                  size={20}
-                  className="text-[#F72C10] cursor-pointer"
-                />
-              )}
-              {count}
+              ) : ( */}
+              <AiOutlineHeart
+                size={20}
+                className="text-[#F72C10] cursor-pointer"
+              />
+              {/* )} */}
+              {/* {count} */}
             </p>
             <p className="text-[14px] flex items-center gap-1 font-bold">
               <TbMessageCircle2 onClick={() => handleGetPostId()} size={20} />
