@@ -6,7 +6,7 @@ export type SafeUser = Omit<
 > & {
   createdAt: string;
   updatedAt: string;
-  emailVerified: string | null;
+  emailVerified: string | null | undefined;
 };
 
 export type SafePosts = Omit<Post, 'createdAt' | 'updatedAt'> & {

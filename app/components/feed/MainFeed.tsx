@@ -16,7 +16,7 @@ import { Post } from '@prisma/client';
 
 interface MainFeedProps {
   feed?: Post[] | null;
-  currentUser: SafeUser;
+  currentUser: SafeUser | null;
   main: boolean;
   currentUserId: string;
   toggle?: string;
@@ -87,7 +87,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
                 alt="logo"
                 src={
                   currentUser?.image ||
-                  currentUser.profileImage ||
+                  currentUser?.profileImage ||
                   '/images/placeholder.jpg'
                 }
               />
@@ -183,12 +183,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
         </div>
       )}
       {/* feed */}
-      {/* 
-      {feed?.map((item) => (
-        <div key={item.id}>
-          <p>{item.name}</p>
-        </div>
-      ))} */}
+
       {feed?.map((item) => (
         <FeedPost
           key={item.id}
