@@ -12,8 +12,6 @@ import Hashtag from '../Hashtag';
 import { useState } from 'react';
 import { SafePosts, SafeUser } from '@/app/types';
 import useLoadingModal from '@/app/hooks/useLoading';
-import usePosts from '@/app/hooks/usePosts';
-import useGetFeeds from '@/app/hooks/useGetFeeds';
 import { Post } from '@prisma/client';
 
 interface MainFeedProps {
