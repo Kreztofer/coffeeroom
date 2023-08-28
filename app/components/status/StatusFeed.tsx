@@ -20,7 +20,7 @@ import { SafePosts, SafeUser } from '@/app/types';
 import { Post } from '@prisma/client';
 
 interface StatusFeedProps {
-  feeds: Post[] | null;
+  feeds?: Post[] | null;
   currentUserId: string;
   currentUser: SafeUser;
   toggle: string;

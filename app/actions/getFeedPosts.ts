@@ -15,7 +15,11 @@ export default async function getFeedPosts() {
       },
     });
 
-    return feeds;
+    if (!feeds) {
+      return null;
+    } else {
+      return feeds;
+    }
   } catch (error) {
     return null;
   }

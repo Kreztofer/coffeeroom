@@ -23,11 +23,11 @@ const ProfilePage = async ({ params }: { params: IParams }) => {
   }
   return (
     <ClientOnly>
-      <ProfilePageClient
+      {/* <ProfilePageClient
         profile={profile}
         posts={posts}
         currentUserId={currentUser.id}
-      />
+      /> */}
     </ClientOnly>
   );
 };

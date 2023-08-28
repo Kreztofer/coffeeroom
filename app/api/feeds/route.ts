@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       },
     });
 
-    const feeds = await prisma.post.findMany({
+    await prisma.post.findMany({
       orderBy: {
         createdAt: 'desc',
       },

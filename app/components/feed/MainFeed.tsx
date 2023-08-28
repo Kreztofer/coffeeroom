@@ -196,6 +196,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           hashtag={item.hashtag}
           friends={currentUser?.friends}
           likes={item.likes}
+          currentUser={currentUser}
           toggle={toggle}
           comments={item.comments}
         />

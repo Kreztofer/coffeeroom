@@ -15,12 +15,16 @@ import toast from 'react-hot-toast';
 import useAddFriends from '@/app/hooks/useAddFriends';
 import { useState } from 'react';
 import useCommentsModal from '@/app/hooks/useCommentsModal';
+import { SafeUser } from '@/app/types';
+import { Post } from '@prisma/client';
+import useLikeAndDislike from '@/app/hooks/useLikeAndDislike';
 
 interface FeedPostProps {
   id: string;
   profilePic: string | null;
   userId: string;
   description: string | null;
+  currentUser: SafeUser | null;
   currentUserId: string;
   location: string | null;
   name: string | null;
@@ -46,12 +50,12 @@ const FeedPost: React.FC<FeedPostProps> = ({
   likes,
   toggle,
   comments,
+  currentUser,
 }) => {
   const router = useRouter();
-  // const liked = Boolean(likes[currentUserId]);
-  // const likecount = Object.keys(likes).length;
-  // const [isLiked, setIsLiked] = useState<boolean>(liked);
-  // const [count, setCount] = useState(likecount);
+
+  const [isLiked, setIsLiked] = useState<boolean>(likes);
+  const [count, setCount] = useState(0);
   const commentsModal = useCommentsModal();
 
   const { patch, checked } = useAddFriends({
@@ -60,32 +64,26 @@ const FeedPost: React.FC<FeedPostProps> = ({
     friends,
   });
 
-  // const patchLike = async () => {
-  //   const data = {
-  //     userId: currentUserId,
-  //     postId: id,
-  //   };
-  //   await axios
-  //     .patch('/api/likepost', data)
-  //     .catch((error: any) => {
-  //       if (error.response) {
-  //         toast.error(error.response.data.message);
-  //       }
-  //     })
-  //     .finally(() => {
-  //       setIsLiked((prev) => !prev);
-  //       if (isLiked === false) {
-  //         setCount(count + 1);
-  //       } else if (isLiked === true) {
-  //         if (likecount > 0) {
-  //           setCount(count - 1);
-  //         } else {
-  //           setCount(0);
-  //         }
-  //       }
-  //       router.refresh();
-  //     });
-  // };
+  const patchLike = async () => {
+    const data = {
+      userId: currentUserId,
+      postId: id,
+    };
+    await axios
+      .patch('/api/likepost', data)
+      .then(() => toast.success('liked'))
+      .catch((error: any) => {
+        if (error.response) {
+          toast.error(error.response.data.message);
+        }
+      })
+      .finally(() => {
+        setIsLiked(!isLiked);
+        router.refresh();
+      });
+  };
+
+  console.log(likes);
 
   const handleHashtag = (hash: string | null) => {
     if (hash) {
@@ -103,6 +101,12 @@ const FeedPost: React.FC<FeedPostProps> = ({
     e.stopPropagation();
     router.push(`/profilepage/${id}`);
   };
+
+  const { hasFavorited, toggleFavorite } = useLikeAndDislike({
+    postId: id,
+    likes,
+    currentUser,
+  });
 
   const handleGetPostId = () => {
     commentsModal.onPost(id);
@@ -175,21 +179,21 @@ const FeedPost: React.FC<FeedPostProps> = ({
         <div className="flex mt-3 items-center justify-between">
           <div className="flex gap-5 items-center">
             <p
-              // onClick={() => patchLike()}
+              onClick={toggleFavorite}
               className="text-[14px] flex items-center gap-1 font-bold"
             >
-              {/* {isLiked ? (
+              {hasFavorited ? (
                 <AiFillHeart
                   size={20}
                   className="text-[#F72C10] cursor-pointer"
                 />
-              ) : ( */}
-              <AiOutlineHeart
-                size={20}
-                className="text-[#F72C10] cursor-pointer"
-              />
-              {/* )} */}
-              {/* {count} */}
+              ) : (
+                <AiOutlineHeart
+                  size={20}
+                  className="text-[#F72C10] cursor-pointer"
+                />
+              )}
+              {count}
             </p>
             <p className="text-[14px] flex items-center gap-1 font-bold">
               <TbMessageCircle2 onClick={() => handleGetPostId()} size={20} />
