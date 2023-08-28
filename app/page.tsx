@@ -7,28 +7,27 @@ import EmptyState from './components/EmptyState';
 import HomeCard from './components/home/HomeCard';
 
 export default async function Home() {
-  // const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser();
 
-  // const feed = await getFeedPosts();
-  // const friendList = await getUsersFriends({ userId: currentUser?.id });
+  const feed = await getFeedPosts();
+  const friendList = await getUsersFriends({ userId: currentUser?.id });
 
-  // if (!currentUser) {
-  //   return (
-  //     <ClientOnly>
-  //       <EmptyState showReset />
-  //     </ClientOnly>
-  //   );
-  // }
+  if (!currentUser) {
+    return (
+      <ClientOnly>
+        <EmptyState showReset />
+      </ClientOnly>
+    );
+  }
 
   return (
     <ClientOnly>
       <Container>
-        <div>feed</div>
-        {/* <HomeCard
+        <HomeCard
           currentUser={currentUser}
           // feed={feed}
           // friendList={friendList}
-        /> */}
+        />
       </Container>
     </ClientOnly>
   );
