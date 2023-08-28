@@ -181,7 +181,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
         </div>
       )}
       {/* feed */}
-
+      {/* 
       {feed?.map((item) => (
         <FeedPost
           key={item.id}
@@ -200,7 +200,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           toggle={toggle}
           comments={item.comments}
         />
-      ))}
+      ))} */}
     </div>
   );
 };

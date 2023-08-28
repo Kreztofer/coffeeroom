@@ -9,7 +9,7 @@ import HomeCard from './components/home/HomeCard';
 export default async function Home() {
   const currentUser = await getCurrentUser();
 
-  const feed = await getFeedPosts();
+  // const feed = await getFeedPosts();
   // const friendList = await getUsersFriends({ userId: currentUser?.id });
 
   if (!currentUser) {
@@ -25,7 +25,7 @@ export default async function Home() {
       <Container>
         <HomeCard
           currentUser={currentUser}
-          feed={feed}
+          // feed={feed}
           // friendList={friendList}
         />
       </Container>
