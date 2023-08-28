@@ -100,7 +100,7 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
     //   });
   };
 
-  const handleHashtag = (hash: string | undefined) => {
+  const handleHashtag = (hash: string | undefined | null) => {
     if (hash) {
       const firstChar = hash.charAt(0);
       if (firstChar === '#') {
