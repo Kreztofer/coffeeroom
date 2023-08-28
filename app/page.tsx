@@ -23,11 +23,12 @@ export default async function Home() {
   return (
     <ClientOnly>
       <Container>
-        <HomeCard
+        <div>hello</div>
+        {/* <HomeCard
           currentUser={currentUser}
           // feed={feed}
           // friendList={friendList}
-        />
+        /> */}
       </Container>
     </ClientOnly>
   );
