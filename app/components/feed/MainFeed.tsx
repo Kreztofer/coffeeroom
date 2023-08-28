@@ -9,7 +9,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import FeedPost from './FeedPost';
 import Hashtag from '../Hashtag';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { SafePosts, SafeUser } from '@/app/types';
 import useLoadingModal from '@/app/hooks/useLoading';
 import { Post } from '@prisma/client';
@@ -38,26 +38,20 @@ const MainFeed: React.FC<MainFeedProps> = ({
   });
   const [imageFile, setImageFile] = useState('');
   const [hashtag, setHashtag] = useState('');
+  const [description, setDescription] = useState('');
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      description: '',
-    },
-  });
-
-  const onPost: SubmitHandler<FieldValues> = (data) => {
+  const onPost = async () => {
     loading.postOpen();
+
+    const data = {
+      description: description,
+      userId: currentUser?.id,
+      postImage: imageFile,
+      hashtag: hashtag,
+    };
+
     axios
-      .post('/api/feeds', {
-        ...data,
-        userId: currentUser?.id,
-        postImage: imageFile,
-        hashtag: hashtag,
-      })
+      .post('/api/feeds', data)
       .then(() => {
         toast.success('Success');
       })
@@ -93,7 +87,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
             <div className="w-[87%] rounded-[40px] h-[50px] flex items-center px-5 bg-gray-100">
               <input
                 id="description"
-                {...register('description')}
+                onChange={(e) => setDescription(e.target.value)}
                 type="text"
                 className="input-box w-full"
                 placeholder="Share something"
@@ -171,9 +165,13 @@ const MainFeed: React.FC<MainFeedProps> = ({
               </p>
             </div>
             <button
-              onClick={handleSubmit(onPost)}
-              disabled={loading.postLoading}
-              className="bg-myblue px-[18px] transition duration-150 hover:scale-[1.07] py-1 text-white rounded-full"
+              onClick={onPost}
+              disabled={description.length === 0}
+              className={`text-white ${
+                description.length === 0
+                  ? 'opacity-[60%] '
+                  : 'opacity-[100%] duration-150 hover:scale-[1.05]'
+              } bg-myblue py-1 px-6 font-semibold rounded-[10px]`}
             >
               {loading.postLoading ? <p className="loader" /> : <p>Post</p>}
             </button>

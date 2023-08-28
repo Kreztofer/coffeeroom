@@ -9,6 +9,8 @@ import getCurrentUser from './actions/getCurrentUser';
 import ProfileModal from './components/modals/ProfileModal';
 import EditProfileModal from './components/modals/EditProfileModal';
 import ClientOnly from './components/ClientOnly';
+import CommentsModal from './components/modals/CommentsModal';
+import getFeedPosts from './actions/getFeedPosts';
 
 const font = Roboto({
   subsets: ['latin'],
@@ -24,6 +26,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
+  const feed = await getFeedPosts();
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={font.className}>
@@ -31,6 +34,7 @@ export default async function RootLayout({
           <ToasterProvider />
           <LoginModal />
           <RegisterModal />
+          <CommentsModal currentUser={currentUser} feeds={feed} />
           <EditProfileModal currentUser={currentUser} />
           <ProfileModal currentUser={currentUser} />
           <Navbar currentUser={currentUser} />

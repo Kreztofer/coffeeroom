@@ -58,8 +58,6 @@ const FeedPost: React.FC<FeedPostProps> = ({
     friends,
   });
 
-  console.log(likes);
-
   const handleHashtag = (hash: string | null) => {
     if (hash) {
       const firstChar = hash.charAt(0);
