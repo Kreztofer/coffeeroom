@@ -15,9 +15,8 @@ export type SafePosts = Omit<Post, 'createdAt' | 'updatedAt'> & {
 };
 
 export type Friends = {
-  _id: string;
+  id: string;
   name: string;
-  image: string;
+  profileImage: string;
   occupation: string;
-  location: string;
 };

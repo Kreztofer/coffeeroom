@@ -45,10 +45,10 @@ model Post {
   hashtag            String
   updatedAt          DateTime @updatedAt
   userId             String @db.ObjectId
-  likedIds           String[] @db.ObjectId
+  likes              Json
   postImage          String?
   location           String?
-  comments           String[]
+  comments           Json[]
   creatorsImage      String?
   creatorsProfileImage  String?
   name               String?

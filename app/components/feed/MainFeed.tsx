@@ -32,8 +32,6 @@ const MainFeed: React.FC<MainFeedProps> = ({
   const router = useRouter();
   const loading = useLoadingModal();
 
-  console.log(feed);
-
   const [handleFileUpload, setHandleFileUpload] = useState({
     image: false,
     hashtag: false,
@@ -197,7 +195,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           feedPic={item.postImage}
           hashtag={item.hashtag}
           friends={currentUser?.friends}
-          likes={item.likedIds}
+          likes={item.likes}
           toggle={toggle}
           comments={item.comments}
         />

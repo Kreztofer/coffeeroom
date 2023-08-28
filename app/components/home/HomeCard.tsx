@@ -2,7 +2,7 @@
 
 import MyProfile from '../feed/MyProfile';
 import MainFeed from '../feed/MainFeed';
-import { Friends, SafePosts, SafeUser } from '@/app/types';
+import { Friends, SafeUser } from '@/app/types';
 import { Post } from '@prisma/client';
 import AdsAndFriends from '../feed/AdsAndFriends';
 
@@ -28,7 +28,7 @@ const HomeCard: React.FC<HomeCardProps> = ({
         currentUserId={currentUser.id}
         toggle="yes"
       />
-      <AdsAndFriends currentUserId={currentUser.id} />
+      <AdsAndFriends currentUserId={currentUser.id} friends={friendList} />
     </div>
   );
 };

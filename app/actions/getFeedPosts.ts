@@ -14,9 +14,6 @@ export default async function getFeedPosts() {
         createdAt: 'desc',
       },
     });
-    if (!feeds) {
-      return null;
-    }
 
     return feeds;
   } catch (error) {

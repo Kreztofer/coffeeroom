@@ -10,7 +10,7 @@ export default async function Home() {
   const currentUser = await getCurrentUser();
 
   const feed = await getFeedPosts();
-  // const friendList = await getUsersFriends({ userId: currentUser?.id });
+  const friendList = await getUsersFriends({ userId: currentUser?.id });
 
   if (!currentUser) {
     return (
@@ -26,7 +26,7 @@ export default async function Home() {
         <HomeCard
           currentUser={currentUser}
           feed={feed}
-          // friendList={friendList}
+          friendList={friendList}
         />
       </Container>
     </ClientOnly>
