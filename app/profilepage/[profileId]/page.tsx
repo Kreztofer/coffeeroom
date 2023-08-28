@@ -10,8 +10,8 @@ interface IParams {
 }
 
 const ProfilePage = async ({ params }: { params: IParams }) => {
-  // const profile = await getUserProfileById(params);
-  // const posts = await getUserPostsById(params);
+  const profile = await getUserProfileById(params);
+  const posts = await getUserPostsById(params);
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
@@ -23,11 +23,11 @@ const ProfilePage = async ({ params }: { params: IParams }) => {
   }
   return (
     <ClientOnly>
-      {/* <ProfilePageClient
+      <ProfilePageClient
         profile={profile}
         posts={posts}
         currentUserId={currentUser.id}
-      /> */}
+      />
     </ClientOnly>
   );
 };

@@ -15,7 +15,7 @@ interface IParams {
 const StatusPage = async ({ params }: { params: IParams }) => {
   const currentUser = await getCurrentUser();
   const feed = await getFeedPosts();
-  // const friendList = await getUsersFriends({ userId: currentUser?.id });
+  const friendList = await getUsersFriends({ userId: currentUser?.id });
 
   if (!currentUser) {
     return (
@@ -32,10 +32,10 @@ const StatusPage = async ({ params }: { params: IParams }) => {
           <StatusFeed
             currentUser={currentUser}
             currentUserId={currentUser?.id}
-            // feeds={feed}
+            feeds={feed}
             toggle="yes"
           />
-          <AdsAndFriends currentUserId={currentUser?.id} />
+          <AdsAndFriends currentUserId={currentUser.id} friends={friendList} />
         </div>
       </Container>
     </ClientOnly>
