@@ -27,7 +27,7 @@ const HomeCard: React.FC<HomeCardProps> = ({
         currentUserId={currentUser.id}
         toggle="yes"
       />
-      {/* <AdsAndFriends currentUserId={currentUser.id} friends={friendList} />  */}
+      <AdsAndFriends currentUserId={currentUser.id} friends={friendList} />
     </div>
   );
 };
