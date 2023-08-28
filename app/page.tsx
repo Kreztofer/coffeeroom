@@ -23,7 +23,6 @@ export default async function Home() {
   return (
     <ClientOnly>
       <Container>
-        <div>hello</div>
         {/* <HomeCard
           currentUser={currentUser}
           // feed={feed}

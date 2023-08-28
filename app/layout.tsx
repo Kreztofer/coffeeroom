@@ -23,17 +23,18 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const currentUser = await getCurrentUser();
+  // const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={font.className}>
         <ClientOnly>
-          <ToasterProvider />
+          <div>hello</div>
+          {/* <ToasterProvider />
           <LoginModal />
           <RegisterModal />
           <EditProfileModal currentUser={currentUser} />
           <ProfileModal currentUser={currentUser} />
-          <Navbar currentUser={currentUser} />
+          <Navbar currentUser={currentUser} /> */}
         </ClientOnly>
         <div className="pt-[75px]">{children}</div>
       </body>
