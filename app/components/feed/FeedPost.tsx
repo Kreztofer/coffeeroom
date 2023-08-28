@@ -20,12 +20,12 @@ interface FeedPostProps {
   id: string;
   profilePic: string | null;
   userId: string;
-  description: string;
+  description: string | null;
   currentUserId: string;
   location: string | null;
   name: string | null;
   feedPic: string | null;
-  hashtag: string;
+  hashtag: string | null;
   friends?: any;
   likes: any;
   toggle?: string;
@@ -87,7 +87,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
   //     });
   // };
 
-  const handleHashtag = (hash: string) => {
+  const handleHashtag = (hash: string | null) => {
     if (hash) {
       const firstChar = hash.charAt(0);
       if (firstChar === '#') {

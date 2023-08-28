@@ -35,10 +35,7 @@ const StatusPage = async ({ params }: { params: IParams }) => {
             feeds={feed}
             toggle="yes"
           />
-          <AdsAndFriends
-            currentUserId={currentUser?.id}
-            // friends={friendList}
-          />
+          <AdsAndFriends currentUserId={currentUser?.id} friends={friendList} />
         </div>
       </Container>
     </ClientOnly>

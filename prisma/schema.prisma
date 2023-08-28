@@ -40,12 +40,12 @@ model User {
 
 model Post {
   id                 String @id @default(auto()) @map("_id") @db.ObjectId
-  description        String
+  description        String?
   createdAt          DateTime @default(now())
-  hashtag            String
+  hashtag            String?
   updatedAt          DateTime @updatedAt
   userId             String @db.ObjectId
-  likes              Json
+  likes              Json?
   postImage          String?
   location           String?
   comments           Json[]

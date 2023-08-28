@@ -21,7 +21,6 @@ const FriendList: React.FC<FriendListProps> = ({
   occupation,
   image,
   currentUserId,
-  friends,
 }) => {
   const router = useRouter();
 

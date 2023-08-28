@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(feeds);
+    return NextResponse.json(newPost);
   } catch (error) {
     return NextResponse.json(
       { message: 'An error occured while creating a post' },

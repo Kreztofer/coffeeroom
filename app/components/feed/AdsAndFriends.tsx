@@ -13,7 +13,6 @@ const AdsAndFriends: React.FC<AdsandFrinedsProps> = ({
   friends,
   currentUserId,
 }) => {
-  console.log(friends);
   return (
     <div className="w-[23%] flex flex-col gap-8 ">
       <div className="rounded-md w-full bg-white shadow-md">
@@ -36,7 +35,7 @@ const AdsAndFriends: React.FC<AdsandFrinedsProps> = ({
           </p>
         </div>
       </div>
-      {/* <div className="rounded-md w-full bg-white shadow-md">
+      <div className="rounded-md w-full bg-white shadow-md">
         <div className="w-[90%] flex flex-col gap-5 mx-auto my-4">
           <p className="font-bold text-[14px]">Friend List</p>
 
@@ -60,7 +59,7 @@ const AdsAndFriends: React.FC<AdsandFrinedsProps> = ({
             </div>
           )}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
