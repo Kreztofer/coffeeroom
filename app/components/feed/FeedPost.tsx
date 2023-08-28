@@ -10,13 +10,9 @@ import {
 import { TbMessageCircle2 } from 'react-icons/tb';
 import { BsSend } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import useAddFriends from '@/app/hooks/useAddFriends';
-import { useState } from 'react';
 import useCommentsModal from '@/app/hooks/useCommentsModal';
 import { SafeUser } from '@/app/types';
-import { Post } from '@prisma/client';
 import useLikeAndDislike from '@/app/hooks/useLikeAndDislike';
 
 interface FeedPostProps {
@@ -54,8 +50,6 @@ const FeedPost: React.FC<FeedPostProps> = ({
 }) => {
   const router = useRouter();
 
-  const [isLiked, setIsLiked] = useState<boolean>(likes);
-  const [count, setCount] = useState(0);
   const commentsModal = useCommentsModal();
 
   const { patch, checked } = useAddFriends({
@@ -63,25 +57,6 @@ const FeedPost: React.FC<FeedPostProps> = ({
     friendId: userId,
     friends,
   });
-
-  const patchLike = async () => {
-    const data = {
-      userId: currentUserId,
-      postId: id,
-    };
-    await axios
-      .patch('/api/likepost', data)
-      .then(() => toast.success('liked'))
-      .catch((error: any) => {
-        if (error.response) {
-          toast.error(error.response.data.message);
-        }
-      })
-      .finally(() => {
-        setIsLiked(!isLiked);
-        router.refresh();
-      });
-  };
 
   console.log(likes);
 
@@ -193,7 +168,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
                   className="text-[#F72C10] cursor-pointer"
                 />
               )}
-              {count}
+              {likes.length}
             </p>
             <p className="text-[14px] flex items-center gap-1 font-bold">
               <TbMessageCircle2 onClick={() => handleGetPostId()} size={20} />
