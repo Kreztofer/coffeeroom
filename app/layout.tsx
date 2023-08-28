@@ -28,13 +28,12 @@ export default async function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true} className={font.className}>
         <ClientOnly>
-          <div>hello</div>
-          {/* <ToasterProvider />
+          <ToasterProvider />
           <LoginModal />
           <RegisterModal />
           <EditProfileModal currentUser={currentUser} />
           <ProfileModal currentUser={currentUser} />
-          <Navbar currentUser={currentUser} /> */}
+          <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pt-[75px]">{children}</div>
       </body>
