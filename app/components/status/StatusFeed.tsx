@@ -16,8 +16,9 @@ import toast from 'react-hot-toast';
 import useAddFriends from '@/app/hooks/useAddFriends';
 import { useEffect, useState } from 'react';
 import useCommentsModal from '@/app/hooks/useCommentsModal';
-import { SafePosts, SafeUser } from '@/app/types';
+import { SafeUser } from '@/app/types';
 import { Post } from '@prisma/client';
+import useLikeAndDislike from '@/app/hooks/useLikeAndDislike';
 
 interface StatusFeedProps {
   feeds?: Post[] | null;
@@ -35,21 +36,12 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
   const { statusId }: any = useParams();
   const router = useRouter();
   const feed = feeds?.find((feed) => feed.id === statusId);
-  // const likes = feed?.likes;
+  const likes = feed?.likes;
   const image = currentUser?.profileImage;
-  // const [myLikes, setmyLikes] = useState<any>(likes);
-
-  // useEffect(() => {
-  //   setmyLikes(likes);
-  // }, [likes]);
 
   const userId = feed?.userId;
   const friends = currentUser?.friends;
   const allcomments = feed?.comments;
-  // const liked = Boolean(myLikes[currentUserId]);
-  // const likecount = Object.keys(myLikes).length;
-  // const [isLiked, setIsLiked] = useState<boolean>(liked);
-  // const [count, setCount] = useState(likecount);
   const [updatedComments, setUpdatedComments] = useState<any>();
   const [more, setMore] = useState(5);
 
@@ -74,31 +66,11 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
 
   console.log(updatedComments);
 
-  const patchLike = async () => {
-    // const data = {
-    //   userId: currentUserId,
-    //   postId: statusId,
-    // };
-    // await axios
-    //   .patch('/api/likepost', data)
-    //   .catch((error: any) => {
-    //     if (error.response) {
-    //       toast.error(error.response.data.message);
-    //     }
-    //   })
-    //   .finally(() => {
-    //     setIsLiked((prev) => !prev);
-    //     if (isLiked === false) {
-    //       setCount(count + 1);
-    //     } else if (isLiked === true) {
-    //       if (likecount > 0) {
-    //         setCount(count - 1);
-    //       } else {
-    //         setCount(0);
-    //       }
-    //     }
-    //   });
-  };
+  const { hasFavorited, toggleFavorite } = useLikeAndDislike({
+    postId: statusId,
+    likes,
+    currentUser,
+  });
 
   const handleHashtag = (hash: string | undefined | null) => {
     if (hash) {
@@ -117,29 +89,29 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
     router.push(`/profilepage/${id}`);
   };
 
-  // const handlePostComment = async () => {
-  //   const data = {
-  //     postId: statusId,
-  //     comment: comment,
-  //     commentPic: currentUser?.image.url,
-  //     name: currentUser?.name,
-  //     id: currentUser?.id,
-  //   };
+  const handlePostComment = async () => {
+    const data = {
+      postId: statusId,
+      comment: comment,
+      commentPic: currentUser?.profileImage,
+      name: currentUser?.name,
+      id: currentUser?.id,
+    };
 
-  //   await axios
-  //     .patch('/api/addcomment', data)
-  //     .then(() => toast.success('Success'))
-  //     .catch((error: any) => {
-  //       if (error.response) {
-  //         toast.error(error.response.data.message);
-  //       }
-  //     })
-  //     .finally(() => {
-  //       router.refresh();
-  //       commentsModal.onClose();
-  //       document.body.style.overflowY = 'auto';
-  //     });
-  // };
+    await axios
+      .patch('/api/addcomment', data)
+      .then(() => toast.success('Success'))
+      .catch((error: any) => {
+        if (error.response) {
+          toast.error(error.response.data.message);
+        }
+      })
+      .finally(() => {
+        router.refresh();
+        commentsModal.onClose();
+        document.body.style.overflowY = 'auto';
+      });
+  };
 
   const handleGetPostId = () => {
     commentsModal.onPost(statusId);
@@ -216,21 +188,21 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
           <hr className="mt-3" />
           <div className="flex items-center gap-3">
             <p className="text-[14px] flex items-center gap-1 font-bold">
-              {/* {count} */}
+              {likes?.length}
               <span className="font-normal text-gray-400"> likes</span>
             </p>
             <p className="text-[14px] cursor-pointer flex items-center gap-1 font-bold">
-              {feed?.comments.length}{' '}
+              {feed?.comments.length}
               <span className="font-normal text-gray-400"> comments</span>
             </p>
           </div>
           <hr />
           <div className="flex items-center justify-between">
             <p
-              onClick={() => patchLike()}
+              onClick={toggleFavorite}
               className="text-[14px] flex items-center gap-1 font-bold"
             >
-              {/* {isLiked ? (
+              {hasFavorited ? (
                 <AiFillHeart
                   size={20}
                   className="text-[#F72C10] cursor-pointer"
@@ -240,12 +212,12 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
                   size={20}
                   className="text-[#F72C10] cursor-pointer"
                 />
-              )} */}
-              {/* {count} */}
+              )}
+              {likes?.length}
             </p>
             <p className="text-[14px] cursor-pointer flex items-center gap-1 font-bold">
               <TbMessageCircle2 onClick={() => handleGetPostId()} size={20} />
-              {/* {feed?.comments.length} */}
+              {feed?.comments.length}
             </p>
 
             <BsSend className="cursor-pointer" size={20} />
@@ -274,7 +246,7 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
 
               <button
                 disabled={comment.length === 0}
-                // onClick={() => handlePostComment()}
+                onClick={() => handlePostComment()}
                 className={`text-white ${
                   comment.length === 0
                     ? 'opacity-[60%] '
