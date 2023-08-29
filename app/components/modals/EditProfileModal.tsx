@@ -23,8 +23,12 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [socialId, setSocialId] = useState<number>();
-  const [filebase64, setFileBase64] = useState<string>('');
+  const [socialId, setSocialId] = useState<number | undefined>(
+    currentUser?.socialId || 0
+  );
+  const [filebase64, setFileBase64] = useState<string | undefined>(
+    currentUser?.profileImage || ''
+  );
   const [toggle, setToggle] = useState({
     name: true,
     email: true,
@@ -121,7 +125,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
     setSocialId(0);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (filebase64 === '') {
       loading.onOpen();
     } else {
@@ -129,7 +133,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
       loading.onOpen();
     }
 
-    axios
+    await axios
       .put('/api/updateprofile', {
         ...data,
         id: currentUser?.id,
@@ -157,7 +161,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
       <div className="flex text-sm justify-between w-[90%] mx-auto">
         <div className="w-[30%] gap-5 flex flex-col items-center">
           <>
-            {filebase64.indexOf('image/') > -1 ? (
+            {filebase64 && filebase64.indexOf('image/') > -1 ? (
               <Image
                 className="rounded-full h-[200px] w-[200px]"
                 height="400"
