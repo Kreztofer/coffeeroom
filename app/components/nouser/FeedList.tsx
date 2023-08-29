@@ -1,20 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  AiOutlineUserAdd,
-  AiFillHeart,
-  AiOutlineHeart,
-  AiOutlineUserDelete,
-} from 'react-icons/ai';
+import { AiOutlineUserAdd, AiOutlineHeart } from 'react-icons/ai';
 import { TbMessageCircle2 } from 'react-icons/tb';
 import { BsSend } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
-import useAddFriends from '@/app/hooks/useAddFriends';
-import useCommentsModal from '@/app/hooks/useCommentsModal';
-import { SafeUser } from '@/app/types';
-import useLikeAndDislike from '@/app/hooks/useLikeAndDislike';
-import LoginModal from '../modals/LoginModal';
+
 import useLoginModal from '@/app/hooks/useLoginModal';
 
 interface FeedListProps {
