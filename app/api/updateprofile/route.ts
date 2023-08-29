@@ -113,7 +113,7 @@ export async function PUT(req: Request) {
     }
   } catch (error) {
     return NextResponse.json(
-      { message: 'An error occured while registering the user' },
+      { message: 'An error occured while updating profile' },
       { status: 500 }
     );
   }
