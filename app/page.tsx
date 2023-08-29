@@ -3,8 +3,8 @@ import getFeedPosts from './actions/getFeedPosts';
 import getUsersFriends from './actions/getUsersFriends';
 import ClientOnly from './components/ClientOnly';
 import Container from './components/Container';
-import EmptyState from './components/EmptyState';
 import HomeCard from './components/home/HomeCard';
+import NoUserCard from './components/nouser/NoUserCard';
 
 export default async function Home() {
   const currentUser = await getCurrentUser();
@@ -15,7 +15,9 @@ export default async function Home() {
   if (!currentUser) {
     return (
       <ClientOnly>
-        <EmptyState showReset />
+        <Container>
+          <NoUserCard feed={feed} />
+        </Container>
       </ClientOnly>
     );
   }

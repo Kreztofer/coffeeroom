@@ -3,11 +3,11 @@ import getCurrentUser from './getCurrentUser';
 
 export default async function getFeedPosts() {
   try {
-    const currentUser = await getCurrentUser();
+    // const currentUser = await getCurrentUser();
 
-    if (!currentUser) {
-      return [];
-    }
+    // if (!currentUser) {
+    //   return [];
+    // }
 
     const feeds = await prisma.post.findMany({
       orderBy: {
