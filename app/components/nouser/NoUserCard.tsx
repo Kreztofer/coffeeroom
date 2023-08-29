@@ -10,7 +10,6 @@ interface NoUserCardProps {
 }
 
 const NoUserCard: React.FC<NoUserCardProps> = ({ feed }) => {
-  console.log(feed);
   return (
     <div className="w-full my-10 relative flex justify-between">
       <Welcome />
