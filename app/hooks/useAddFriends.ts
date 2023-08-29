@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
@@ -11,14 +11,12 @@ interface UseAddFriendsProp {
 
 const useAddFriends = ({ userId, friends, friendId }: UseAddFriendsProp) => {
   const router = useRouter();
-  const check = friends?.includes(friendId);
-  const [checking, setChecking] = useState<boolean>(check);
-  const [checked, setChecked] = useState<boolean | undefined>(checking);
 
-  useEffect(() => {
-    const check = friends?.includes(friendId);
-    setChecking(check);
-  }, [friends, friendId]);
+  const checked = useMemo(() => {
+    const list = friends || [];
+
+    return list.includes(friendId);
+  }, [friendId, friends]);
 
   const patch = useCallback(
     async (
@@ -38,7 +36,6 @@ const useAddFriends = ({ userId, friends, friendId }: UseAddFriendsProp) => {
           }
         })
         .finally(() => {
-          setChecked((prev) => !prev);
           router.refresh();
         });
     },
@@ -46,7 +43,7 @@ const useAddFriends = ({ userId, friends, friendId }: UseAddFriendsProp) => {
     [userId]
   );
 
-  return { patch, setChecked, checked, checking };
+  return { patch, checked };
 };
 
 export default useAddFriends;

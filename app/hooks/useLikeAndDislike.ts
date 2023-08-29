@@ -44,7 +44,6 @@ const useLikeAndDislike = ({ postId, likes, currentUser }: IUseFavorite) => {
 
         await request();
         router.refresh();
-        toast.success('Success');
       } catch (error) {
         toast.error('Something went wrong.');
       }

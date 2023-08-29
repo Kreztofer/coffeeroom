@@ -12,7 +12,7 @@ interface FriendListProps {
   name: string;
   occupation: string;
   currentUserId: string;
-  friends?: Friends[] | null;
+  friends?: any;
 }
 
 const FriendList: React.FC<FriendListProps> = ({
@@ -20,6 +20,7 @@ const FriendList: React.FC<FriendListProps> = ({
   name,
   occupation,
   image,
+  friends,
   currentUserId,
 }) => {
   const router = useRouter();

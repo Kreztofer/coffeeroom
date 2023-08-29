@@ -13,6 +13,7 @@ const AdsAndFriends: React.FC<AdsandFrinedsProps> = ({
   friends,
   currentUserId,
 }) => {
+  console.log(friends);
   return (
     <div className="w-[23%] flex flex-col gap-8 ">
       <div className="rounded-md w-full bg-white shadow-md">
@@ -43,11 +44,11 @@ const AdsAndFriends: React.FC<AdsandFrinedsProps> = ({
             <>
               {friends?.map((friend: any) => (
                 <FriendList
-                  key={friend._id}
+                  key={friend.id}
                   image={friend.image}
                   name={friend.name}
                   occupation={friend.occupation}
-                  id={friend._id}
+                  id={friend.id}
                   currentUserId={currentUserId}
                   friends={friends}
                 />

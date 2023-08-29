@@ -22,7 +22,7 @@ model User {
   hashedPassword  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  friends         String[]
+  friends         String[] @db.ObjectId
   hasNotification Boolean?
   socialId      Int?
   twitter      String?
