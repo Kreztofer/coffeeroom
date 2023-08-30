@@ -20,9 +20,8 @@ interface EditProfileProps {
 }
 const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   const loading = useLoadingModal();
-  const router = useRouter();
+  const [imageFile, setimageFile] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [socialId, setSocialId] = useState<number | undefined>(
     currentUser?.socialId || 0
   );
@@ -79,6 +78,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
 
   const convertFile = (files: any) => {
     if (files) {
+      setimageFile(files[0]);
       const fileRef = files[0] || '';
       const fileType: string = fileRef.type || '';
       if (
@@ -138,7 +138,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
         ...data,
         id: currentUser?.id,
         socialId: socialId,
-        profileImage: filebase64,
+        profileImage: imageFile,
         image: currentUser?.image,
       })
       .then(() => {
