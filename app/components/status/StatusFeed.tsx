@@ -84,6 +84,21 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
     return '';
   };
 
+  const handlePlural = (length: number | null | undefined, type: string) => {
+    if (type === 'comment') {
+      if (length === 1) {
+        return 'comment';
+      }
+      return 'comments';
+    }
+    if (type === 'likes') {
+      if (length === 1) {
+        return 'like';
+      }
+      return 'likes';
+    }
+  };
+
   const handleProfileChange = (e: any, id: any) => {
     e.stopPropagation();
     router.push(`/profilepage/${id}`);
@@ -189,11 +204,16 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
           <div className="flex items-center gap-3">
             <p className="text-[14px] flex items-center gap-1 font-bold">
               {likes?.length}
-              <span className="font-normal text-gray-400"> likes</span>
+              <span className="font-normal text-gray-400">
+                {' '}
+                {handlePlural(likes?.length, 'likes')}
+              </span>
             </p>
             <p className="text-[14px] cursor-pointer flex items-center gap-1 font-bold">
               {feed?.comments.length}
-              <span className="font-normal text-gray-400"> comments</span>
+              <span className="font-normal text-gray-400">
+                {handlePlural(feed?.comments.length, 'comment')}
+              </span>
             </p>
           </div>
           <hr />
