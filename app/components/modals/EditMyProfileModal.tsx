@@ -112,12 +112,12 @@ const EditMyProfileModal: React.FC<EditMyProfileProps> = ({ currentUser }) => {
   }, [currentUser]);
 
   const handleSubmit = async (e: any) => {
-    // if (filebase64 === '') {
-    //   loading.onOpen();
-    // } else {
-    //   profileLoading.onOpen();
-    //   loading.onOpen();
-    // }
+    if (filebase64 === '') {
+      loading.onOpen();
+    } else {
+      profileLoading.onOpen();
+      loading.onOpen();
+    }
 
     const formData = new FormData();
     formData.append('id', id);
@@ -149,47 +149,6 @@ const EditMyProfileModal: React.FC<EditMyProfileProps> = ({ currentUser }) => {
         loading.onClose();
       });
   };
-
-  // const handleSubmit = useCallback(async (e: any) => {
-
-  //   // if (filebase64 === '') {
-  //   //   loading.onOpen();
-  //   // } else {
-  //   //   profileLoading.onOpen();
-  //   //   loading.onOpen();
-  //   // }
-
-  //   const formData = new FormData();
-  //   formData.set('name', name);
-
-  //   // formData.set('email', email);
-  //   // formData.set('occupation', occupation);
-  //   // formData.set('location', location);
-  //   // formData.set('twitter', twitter);
-  //   // formData.set('instagram', instagram);
-  //   // formData.set('dribbble', dribbble);
-  //   // formData.set('linkedin', linkedin);
-  //   // formData.set('file', imageFile);
-
-  //   // await axios
-  //   //   .put('/api/profileupdate', formData)
-  //   //   .then(() => {
-  //   //     toast.success('Success');
-  //   //     editProfileModal.onClose();
-  //   //   })
-  //   //   .catch((error) => {
-  //   //     if (error.response) {
-  //   //       toast.error(error.response.data.message);
-  //   //     }
-  //   //   })
-  //   //   .finally(() => {
-  //   //     window.location.reload();
-  //   //     profileLoading.onClose();
-  //   //     loading.onClose();
-  //   //   });
-
-  //   // eslint-disable-next-line
-  // }, []);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -376,7 +335,7 @@ const EditMyProfileModal: React.FC<EditMyProfileProps> = ({ currentUser }) => {
   );
   return (
     <Modal
-      isOpen={editProfileModal.isOpen}
+      isOpen={false}
       title="Edit Profile"
       onClose={editProfileModal.onClose}
       body={bodyContent}

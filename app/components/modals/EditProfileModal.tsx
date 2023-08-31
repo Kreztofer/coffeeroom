@@ -19,6 +19,9 @@ interface EditProfileProps {
   currentUser?: SafeUser | null;
 }
 const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
+  const CLOUD_NAME = 'dvutsaf4x';
+  const UPLOAD_PRESET = 'dth9ggpm';
+
   const loading = useLoadingModal();
   const [imageFile, setimageFile] = useState<any>([]);
 
@@ -125,6 +128,33 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
     setSocialId(0);
   };
 
+  const uploadImage = async () => {
+    if (!imageFile) return;
+
+    const formData = new FormData();
+
+    formData.append('file', imageFile);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    try {
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      const imageUrl = data['secure_url'];
+
+      return imageUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (filebase64 === '') {
       loading.onOpen();
@@ -133,30 +163,34 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
       loading.onOpen();
     }
 
-    console.log(imageFile.name);
+    try {
+      const imageUrl = await uploadImage();
 
-    await axios
-      .put('/api/updateprofile', {
-        ...data,
-        id: currentUser?.id,
-        socialId: socialId,
-        profileImage: imageFile,
-        image: currentUser?.image,
-      })
-      .then(() => {
-        toast.success('Success');
-        editProfileModal.onClose();
-      })
-      .catch((error) => {
-        if (error.response) {
-          toast.error(error.response.data.message);
-        }
-      })
-      .finally(() => {
-        // location.reload();
-        profileLoading.onClose();
-        loading.onClose();
-      });
+      await axios
+        .put('/api/updateprofile', {
+          ...data,
+          id: currentUser?.id,
+          socialId: socialId,
+          profileImage: imageUrl,
+          image: currentUser?.image,
+        })
+        .then(() => {
+          toast.success('Success');
+          editProfileModal.onClose();
+        })
+        .catch((error) => {
+          if (error.response) {
+            toast.error(error.response.data.message);
+          }
+        })
+        .finally(() => {
+          location.reload();
+          profileLoading.onClose();
+          loading.onClose();
+        });
+    } catch (error) {
+      toast.error('something went wrong');
+    }
   };
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -166,8 +200,8 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
             {filebase64 && filebase64.indexOf('image/') > -1 ? (
               <Image
                 className="rounded-full h-[200px] w-[200px]"
-                height="400"
-                width="400"
+                height="100"
+                width="100"
                 alt="logo"
                 src={filebase64}
               />
@@ -335,7 +369,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   );
   return (
     <Modal
-      isOpen={false}
+      isOpen={editProfileModal.isOpen}
       title="Edit Profile"
       onClose={editProfileModal.onClose}
       body={bodyContent}
