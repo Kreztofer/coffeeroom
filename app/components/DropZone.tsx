@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 
 interface DropZoneProps {
   setImageFile: Dispatch<SetStateAction<string>>;
+  setImage: Dispatch<SetStateAction<any>>;
 }
 
 const baseStyle = {
@@ -42,10 +43,11 @@ const rejectStyle = {
   borderColor: '#ff1744',
 };
 
-const DropZone: React.FC<DropZoneProps> = ({ setImageFile }) => {
+const DropZone: React.FC<DropZoneProps> = ({ setImageFile, setImage }) => {
   const [name, setName] = useState('');
   const onDrop = useCallback((acceptedFiles: any) => {
     setName(acceptedFiles[0].name);
+    setImage(acceptedFiles[0]);
     if (acceptedFiles) {
       const fileRef = acceptedFiles[0] || '';
       const fileType: string = fileRef.type || '';

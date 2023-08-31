@@ -29,6 +29,8 @@ const MainFeed: React.FC<MainFeedProps> = ({
   currentUserId,
   toggle,
 }) => {
+  const CLOUD_NAME = 'dvutsaf4x';
+  const UPLOAD_PRESET = 'dth9ggpm';
   const router = useRouter();
   const loading = useLoadingModal();
 
@@ -36,34 +38,66 @@ const MainFeed: React.FC<MainFeedProps> = ({
     image: false,
     hashtag: false,
   });
+  const [image, setimage] = useState<any>();
   const [imageFile, setImageFile] = useState('');
   const [hashtag, setHashtag] = useState('');
   const [description, setDescription] = useState('');
 
+  const uploadImage = async () => {
+    if (!image) return;
+
+    const formData = new FormData();
+
+    formData.append('file', image);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    try {
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      const imageUrl = data['secure_url'];
+
+      return imageUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onPost = async () => {
     loading.postOpen();
 
-    const data = {
-      description: description,
-      userId: currentUser?.id,
-      postImage: imageFile,
-      hashtag: hashtag,
-    };
+    try {
+      const imageUrl = await uploadImage();
 
-    axios
-      .post('/api/feeds', data)
-      .then(() => {
-        toast.success('Success');
-      })
-      .catch((error: any) => {
-        if (error.response) {
-          toast.error(error.response.data.message);
-        }
-      })
-      .finally(() => {
-        loading.postClose();
-        router.refresh();
-      });
+      const data = {
+        description: description,
+        userId: currentUser?.id,
+        postImage: imageUrl,
+        hashtag: hashtag,
+      };
+
+      axios
+        .post('/api/feeds', data)
+        .then(() => {
+          toast.success('Success');
+        })
+        .catch((error: any) => {
+          if (error.response) {
+            toast.error(error.response.data.message);
+          }
+        })
+        .finally(() => {
+          loading.postClose();
+          router.refresh();
+        });
+    } catch (error) {}
   };
 
   return (
@@ -96,7 +130,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           </div>
           {handleFileUpload.image === true && (
             <>
-              <DropZone setImageFile={setImageFile} />
+              <DropZone setImage={setimage} setImageFile={setImageFile} />
             </>
           )}
           {handleFileUpload.hashtag === true && (

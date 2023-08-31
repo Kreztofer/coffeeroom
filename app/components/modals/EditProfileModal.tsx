@@ -156,7 +156,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    if (filebase64 === '') {
+    if (!imageFile) {
       loading.onOpen();
     } else {
       profileLoading.onOpen();
