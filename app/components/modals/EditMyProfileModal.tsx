@@ -3,11 +3,9 @@
 import Modal from './Modal';
 import useEditProfileModal from '@/app/hooks/useEditProfileModal';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
-import ProfileInput from '../ProfileInput';
+import MyProfileInput from '../MyProfileInput';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { OCCUPATIONS } from '@/app/context';
@@ -15,16 +13,22 @@ import { SafeUser } from '@/app/types';
 import useLoadingModal from '@/app/hooks/useLoading';
 import useProfileLoadingModal from '@/app/hooks/useProfileLoading';
 
-interface EditProfileProps {
+interface EditMyProfileProps {
   currentUser?: SafeUser | null;
 }
-const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
+const EditMyProfileModal: React.FC<EditMyProfileProps> = ({ currentUser }) => {
   const loading = useLoadingModal();
-  const [imageFile, setimageFile] = useState<any>([]);
-
-  const [socialId, setSocialId] = useState<number | undefined>(
-    currentUser?.socialId || 0
-  );
+  const [imageFile, setimageFile] = useState<any>(currentUser?.profileImage);
+  const [id, setId] = useState<any>(currentUser?.id);
+  const [name, setName] = useState<any>(currentUser?.name);
+  const [email, setEmail] = useState<any>();
+  const [occupation, setOccupation] = useState<any>();
+  const [location, setLocation] = useState<any>();
+  const [twitter, setTwitter] = useState<any>();
+  const [instagram, setInstagram] = useState<any>();
+  const [dribbble, setDribbble] = useState<any>();
+  const [linkedin, setLinkedin] = useState<any>();
+  const [socialId, setSocialId] = useState<any>(currentUser?.socialId);
   const [filebase64, setFileBase64] = useState<string | undefined>(
     currentUser?.profileImage || ''
   );
@@ -44,41 +48,23 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
 
   const profileLoading = useProfileLoadingModal();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      name: '',
-      email: '',
-      occupation: '',
-      location: '',
-      twitter: '',
-      instagram: '',
-      dribbble: '',
-      linkedin: '',
-    },
-  });
-
   useEffect(() => {
-    let defaults = {
-      name: currentUser?.name,
-      email: currentUser?.email,
-      occupation: currentUser?.occupation,
-      location: currentUser?.location,
-      twitter: currentUser?.twitter,
-      instagram: currentUser?.instagram,
-      dribbble: currentUser?.dribbble,
-      linkedin: currentUser?.linkedin,
-    };
-    reset(defaults);
-  }, [currentUser, reset]);
+    if (currentUser) {
+      setName(currentUser?.name);
+      setEmail(currentUser?.email);
+      setOccupation(currentUser?.occupation);
+      setLocation(currentUser?.location);
+      setTwitter(currentUser?.twitter);
+      setInstagram(currentUser?.instagram);
+      setDribbble(currentUser?.dribbble);
+      setLinkedin(currentUser?.linkedin);
+      setId(currentUser?.id);
+    }
+  }, [currentUser]);
 
   const convertFile = (files: any) => {
+    setimageFile(files[0]);
     if (files) {
-      setimageFile(files[0]);
       const fileRef = files[0] || '';
       const fileType: string = fileRef.type || '';
       if (
@@ -101,17 +87,17 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
     return files;
   };
 
-  const handleReset = () => {
-    reset({
-      name: currentUser?.name,
-      email: currentUser?.email,
-      occupation: currentUser?.occupation,
-      location: currentUser?.location,
-      twitter: currentUser?.twitter,
-      instagram: currentUser?.instagram,
-      dribbble: currentUser?.dribbble,
-      linkedin: currentUser?.linkedin,
-    });
+  const handleReset = useCallback(() => {
+    setName(currentUser?.name);
+    setEmail(currentUser?.email);
+    setOccupation(currentUser?.occupation);
+    setLocation(currentUser?.location);
+    setTwitter(currentUser?.twitter);
+    setInstagram(currentUser?.instagram);
+    setDribbble(currentUser?.dribbble);
+    setLinkedin(currentUser?.linkedin);
+
+    //
     setToggle({
       name: true,
       email: true,
@@ -123,26 +109,31 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
       linkedin: true,
     });
     setSocialId(0);
-  };
+  }, [currentUser]);
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    if (filebase64 === '') {
-      loading.onOpen();
-    } else {
-      profileLoading.onOpen();
-      loading.onOpen();
-    }
+  const handleSubmit = async (e: any) => {
+    // if (filebase64 === '') {
+    //   loading.onOpen();
+    // } else {
+    //   profileLoading.onOpen();
+    //   loading.onOpen();
+    // }
 
-    console.log(imageFile.name);
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('image', imageFile);
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('occupation', occupation);
+    formData.append('location', location);
+    formData.append('twitter', twitter);
+    formData.append('instagram', instagram);
+    formData.append('dribbble', dribbble);
+    formData.append('linkedin', linkedin);
+    formData.append('socialId', socialId);
 
     await axios
-      .put('/api/updateprofile', {
-        ...data,
-        id: currentUser?.id,
-        socialId: socialId,
-        profileImage: imageFile,
-        image: currentUser?.image,
-      })
+      .put('/api/profileupdate', formData)
       .then(() => {
         toast.success('Success');
         editProfileModal.onClose();
@@ -153,11 +144,53 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
         }
       })
       .finally(() => {
-        // location.reload();
+        window.location.reload();
         profileLoading.onClose();
         loading.onClose();
       });
   };
+
+  // const handleSubmit = useCallback(async (e: any) => {
+
+  //   // if (filebase64 === '') {
+  //   //   loading.onOpen();
+  //   // } else {
+  //   //   profileLoading.onOpen();
+  //   //   loading.onOpen();
+  //   // }
+
+  //   const formData = new FormData();
+  //   formData.set('name', name);
+
+  //   // formData.set('email', email);
+  //   // formData.set('occupation', occupation);
+  //   // formData.set('location', location);
+  //   // formData.set('twitter', twitter);
+  //   // formData.set('instagram', instagram);
+  //   // formData.set('dribbble', dribbble);
+  //   // formData.set('linkedin', linkedin);
+  //   // formData.set('file', imageFile);
+
+  //   // await axios
+  //   //   .put('/api/profileupdate', formData)
+  //   //   .then(() => {
+  //   //     toast.success('Success');
+  //   //     editProfileModal.onClose();
+  //   //   })
+  //   //   .catch((error) => {
+  //   //     if (error.response) {
+  //   //       toast.error(error.response.data.message);
+  //   //     }
+  //   //   })
+  //   //   .finally(() => {
+  //   //     window.location.reload();
+  //   //     profileLoading.onClose();
+  //   //     loading.onClose();
+  //   //   });
+
+  //   // eslint-disable-next-line
+  // }, []);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <div className="flex text-sm justify-between w-[90%] mx-auto">
@@ -202,33 +235,37 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
 
         <div className="w-[60%] flex gap-5 flex-col">
           <div>
-            <ProfileInput
+            <MyProfileInput
               name="NAME"
+              value={name}
               id="name"
+              setData={setName}
               border
               onClick={() => setToggle({ ...toggle, name: false })}
-              register={register}
               toggle={toggle.name}
             />
-            <ProfileInput
+            <MyProfileInput
               name="EMAIL"
+              value={email}
               id="email"
+              setData={setEmail}
               onClick={() => setToggle({ ...toggle, email: false })}
-              register={register}
               toggle={toggle.email}
             />
-            <ProfileInput
+            <MyProfileInput
               name="LOCATION"
+              value={location}
               id="location"
+              setData={setLocation}
               onClick={() => setToggle({ ...toggle, location: false })}
-              register={register}
               toggle={toggle.location}
             />
-            <ProfileInput
+            <MyProfileInput
               name="OCCUPATION"
+              value={occupation}
+              setData={setOccupation}
               id="occupation"
               onClick={() => setToggle({ ...toggle, occupation: false })}
-              register={register}
               toggle={toggle.occupation}
             />
           </div>
@@ -268,33 +305,37 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
             </button>
             {toggleBtn && (
               <div>
-                <ProfileInput
+                <MyProfileInput
                   id="twitter"
-                  register={register}
+                  value={twitter}
+                  setData={setTwitter}
                   toggle={toggle.twitter}
                   onClick={() => setToggle({ ...toggle, twitter: false })}
                   social
                   placeholder="twitter"
                 />
-                <ProfileInput
+                <MyProfileInput
                   id="instagram"
-                  register={register}
+                  value={instagram}
+                  setData={setInstagram}
                   toggle={toggle.instagram}
                   onClick={() => setToggle({ ...toggle, instagram: false })}
                   social
                   placeholder="instagram"
                 />
-                <ProfileInput
+                <MyProfileInput
                   id="dribbble"
-                  register={register}
+                  value={dribbble}
+                  setData={setDribbble}
                   toggle={toggle.dribbble}
                   onClick={() => setToggle({ ...toggle, dribbble: false })}
                   social
                   placeholder="dribbble"
                 />
-                <ProfileInput
+                <MyProfileInput
                   id="linkedin"
-                  register={register}
+                  value={linkedin}
+                  setData={setLinkedin}
                   toggle={toggle.linkedin}
                   onClick={() => setToggle({ ...toggle, linkedin: false })}
                   social
@@ -307,7 +348,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
           <div className="flex gap-10">
             <button
               disabled={loading.isLoading}
-              onClick={handleSubmit(onSubmit)}
+              onClick={(e) => handleSubmit(e)}
               className="bg-[#00AFF2] transition-all duration-200 hover:scale-[1.02] shadow-md text-white px-9 py-2"
             >
               {loading.isLoading === true ? (
@@ -335,7 +376,7 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   );
   return (
     <Modal
-      isOpen={false}
+      isOpen={editProfileModal.isOpen}
       title="Edit Profile"
       onClose={editProfileModal.onClose}
       body={bodyContent}
@@ -345,4 +386,4 @@ const EditProfileModal: React.FC<EditProfileProps> = ({ currentUser }) => {
   );
 };
 
-export default EditProfileModal;
+export default EditMyProfileModal;

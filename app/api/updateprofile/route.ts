@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import prisma from '@/app/libs/prismadb';
+import { writeFile } from 'fs';
 
 export async function PUT(req: NextRequest) {
   try {
@@ -16,10 +17,6 @@ export async function PUT(req: NextRequest) {
       dribbble,
       instagram,
     } = await req.json();
-
-    if (!name) {
-      throw new Error('Missing fields');
-    }
 
     // await prisma.user.update({
     //   where: {

@@ -11,6 +11,7 @@ import EditProfileModal from './components/modals/EditProfileModal';
 import ClientOnly from './components/ClientOnly';
 import CommentsModal from './components/modals/CommentsModal';
 import getFeedPosts from './actions/getFeedPosts';
+import EditMyProfileModal from './components/modals/EditMyProfileModal';
 
 const font = Roboto({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default async function RootLayout({
           <RegisterModal />
           <CommentsModal currentUser={currentUser} feeds={feed} />
           <EditProfileModal currentUser={currentUser} />
+          <EditMyProfileModal currentUser={currentUser} />
           <ProfileModal currentUser={currentUser} />
           <Navbar currentUser={currentUser} />
         </ClientOnly>

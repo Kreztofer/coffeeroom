@@ -50,6 +50,7 @@ model Post {
   location           String?
   comments           Json[]
   creatorsImage      String?
+  occupation         String?
   creatorsProfileImage  String?
   name               String?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
