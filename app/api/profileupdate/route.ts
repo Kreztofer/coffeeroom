@@ -29,50 +29,6 @@ export async function PUT(req: NextRequest) {
       data.get('socialId') !== null ? Number(data.get('socialId')) : null;
 
     // if (!profileImage) {
-    await prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        name,
-        email,
-        occupation,
-        location,
-        socialId,
-        linkedin,
-        twitter,
-        dribbble,
-        instagram,
-      },
-    });
-
-    // const hasPost = await prisma.post.findFirst({
-    //   where: {
-    //     userId: id,
-    //   },
-    // });
-
-    // if (hasPost) {
-    //   await prisma.post.updateMany({
-    //     where: {
-    //       userId: id,
-    //     },
-    //     data: {
-    //       name: name,
-    //       occupation: occupation,
-    //       location: location,
-    //     },
-    //   });
-    // }
-    // } else {
-    //   //@ts-ignore
-    //   const byteData = await profileImage.arrayBuffer();
-    //   const buffer = Buffer.from(byteData);
-    //   // @ts-ignore
-    //   const path = `./public/uploads/${profileImage?.name}`;
-
-    //   const imagePath = path.slice(8);
-
     //   await prisma.user.update({
     //     where: {
     //       id: id,
@@ -87,7 +43,6 @@ export async function PUT(req: NextRequest) {
     //       twitter,
     //       dribbble,
     //       instagram,
-    //       profileImage: imagePath,
     //     },
     //   });
 
@@ -106,12 +61,47 @@ export async function PUT(req: NextRequest) {
     //         name: name,
     //         occupation: occupation,
     //         location: location,
-    //         creatorsProfileImage: imagePath,
     //       },
     //     });
     //   }
-    //   await writeFile(path, buffer);
+    // } else {
+    //@ts-ignore
+    const byteData = await profileImage.arrayBuffer();
+    const buffer = Buffer.from(byteData);
+    // @ts-ignore
+    const path = `./public/uploads/${profileImage?.name}`;
+
+    const imagePath = path.slice(8);
+
+    await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        profileImage: imagePath,
+      },
+    });
+
+    // const hasPost = await prisma.post.findFirst({
+    //   where: {
+    //     userId: id,
+    //   },
+    // });
+
+    // if (hasPost) {
+    //   await prisma.post.updateMany({
+    //     where: {
+    //       userId: id,
+    //     },
+    //     data: {
+    //       name: name,
+    //       occupation: occupation,
+    //       location: location,
+    //       creatorsProfileImage: imagePath,
+    //     },
+    //   });
     // }
+    await writeFile(path, buffer);
 
     return NextResponse.json({ message: 'User updated' }, { status: 201 });
   } catch (error) {
