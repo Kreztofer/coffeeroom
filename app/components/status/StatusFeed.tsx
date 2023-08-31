@@ -64,8 +64,6 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
     setUpdatedComments(myComments.slice(0, more));
   }, [more, myComments]);
 
-  console.log(updatedComments);
-
   const { hasFavorited, toggleFavorite } = useLikeAndDislike({
     postId: statusId,
     likes,
@@ -104,7 +102,8 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
     router.push(`/profilepage/${id}`);
   };
 
-  const handlePostComment = async () => {
+  const handlePostComment = async (e: any) => {
+    e.preventDefault();
     const data = {
       postId: statusId,
       comment: comment,
@@ -266,7 +265,7 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
 
               <button
                 disabled={comment.length === 0}
-                onClick={() => handlePostComment()}
+                onClick={(e) => handlePostComment(e)}
                 className={`text-white ${
                   comment.length === 0
                     ? 'opacity-[60%] '

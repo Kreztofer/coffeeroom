@@ -70,8 +70,16 @@ const MainFeed: React.FC<MainFeedProps> = ({
     }
   };
 
-  const onPost = async () => {
+  const onPost = async (e: any) => {
     loading.postOpen();
+
+    e.preventDefault();
+
+    setHandleFileUpload({
+      ...handleFileUpload,
+      image: false,
+      hashtag: false,
+    });
 
     try {
       const imageUrl = await uploadImage();
@@ -199,7 +207,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
               </p>
             </div>
             <button
-              onClick={onPost}
+              onClick={(e) => onPost(e)}
               disabled={description.length === 0}
               className={`text-white ${
                 description.length === 0
