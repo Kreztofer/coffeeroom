@@ -134,7 +134,7 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
   };
 
   return (
-    <div className="w-[48%]">
+    <div className="lg:w-[48%] w-full">
       <div className="bg-white py-2 rounded-md shadow-md">
         <div className="w-[95%] flex flex-col gap-3 mx-auto my-5">
           <div className="w-full h-full flex gap-3 flex-col">
@@ -252,7 +252,7 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
                   alt="profile image"
                   className="w-[50px] cursor-pointer h-[50px] rounded-full"
                 />
-                <div className="w-[85%]">
+                <div className="sm:w-[85%] w-[75%]">
                   <input
                     autoFocus
                     className="status_input"
@@ -279,7 +279,7 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
               {updatedComments?.map((comment: any, id: any) => (
                 <div
                   key={id}
-                  className="flex justify-between border-y-[1px] border-gray-200 py-3"
+                  className="flex items-center justify-between border-y-[1px] border-gray-200 py-3"
                 >
                   <Image
                     src={comment?.commentPic || '/images/placeholder.jpg'}
@@ -288,11 +288,13 @@ const StatusFeed: React.FC<StatusFeedProps> = ({
                     alt="comment pic"
                     className="w-[50px] cursor-pointer h-[50px] rounded-full"
                   />
-                  <div className="flex flex-col w-[90%]">
-                    <h2 className="font-extrabold text-[15px]">
+                  <div className="flex flex-col w-[80%] sm:w-[88%]">
+                    <h2 className="font-extrabold text-[13px] sl:text-[15px]">
                       {comment?.name ? comment?.name : 'anonymous'}
                     </h2>
-                    <p className="text-[14px] w-[95%]">{comment?.comment}</p>
+                    <p className="sl:text-[14px] text-[12px] w-[95%]">
+                      {comment?.comment}
+                    </p>
                   </div>
                 </div>
               ))}

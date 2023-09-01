@@ -8,7 +8,7 @@ interface NoUserFeedProps {
 }
 const NoUserFeed: React.FC<NoUserFeedProps> = ({ feed }) => {
   return (
-    <div className="w-[48%] flex flex-col gap-3">
+    <div className="lg:w-[48%] w-full flex flex-col gap-3">
       {feed?.map((item) => (
         <FeedList
           key={item.id}

@@ -18,7 +18,7 @@ const HomeCard: React.FC<HomeCardProps> = ({
   friendList,
 }) => {
   return (
-    <div className="w-full my-10 relative flex justify-between">
+    <div className="w-full my-10 relative flex flex-col lg:flex-row justify-between">
       <MyProfile currentUser={currentUser} />
       <MainFeed
         feed={feed}

@@ -109,24 +109,29 @@ const MainFeed: React.FC<MainFeedProps> = ({
   };
 
   return (
-    <div className={`${main ? 'w-[48%]' : 'w-full'} flex flex-col gap-5`}>
+    <div
+      className={`${main ? 'lg:w-[48%] w-full' : 'w-full'} flex flex-col gap-5`}
+    >
       {main && (
         <div className="bg-white p-5 rounded-md shadow-md w-full ">
           <div className="justify-between items-center flex w-full">
-            <div className="w-[10%]">
-              <Image
-                className="rounded-full h-[60px] w-[60px]"
-                height="100"
-                width="100"
-                alt="logo"
-                src={
-                  currentUser?.image ||
-                  currentUser?.profileImage ||
-                  '/images/placeholder.jpg'
-                }
-              />
+            <div>
+              <div className="w-[60px] h-[60px]">
+                <Image
+                  className="rounded-full h-[100%] w-[100%]"
+                  height="100"
+                  width="100"
+                  alt="logo"
+                  src={
+                    currentUser?.image ||
+                    currentUser?.profileImage ||
+                    '/images/placeholder.jpg'
+                  }
+                />
+              </div>
             </div>
-            <div className="w-[87%] rounded-[40px] h-[50px] flex items-center px-5 bg-gray-100">
+
+            <div className="sm:w-[87%] w-[75%] rounded-[40px] h-[50px] flex items-center px-5 bg-gray-100">
               <input
                 id="description"
                 onChange={(e) => setDescription(e.target.value)}
@@ -148,7 +153,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
           )}
           <hr className="mt-5 mb-3" />
           <div className="flex justify-between items-center">
-            <div className="w-[70%] flex justify-between">
+            <div className="md:w-[70%] w-[80%] flex justify-between">
               <p
                 onClick={() =>
                   setHandleFileUpload({
@@ -156,32 +161,32 @@ const MainFeed: React.FC<MainFeedProps> = ({
                     image: !handleFileUpload.image,
                   })
                 }
-                className="flex gap-2 cursor-pointer items-center text-[12px] font-bold"
+                className="flex gap-[4px] md:gap-2 cursor-pointer items-center text-[10px] md:text-[12px] font-bold"
               >
                 <Image
                   height="100"
                   width="100"
-                  className="w-[16px] h-[16px]"
+                  className="w-[12px] md:w-[16px] h-[12px] md:h-[16px]"
                   src="/images/image.png"
                   alt="image"
                 />
                 Image
               </p>
-              <p className="flex gap-2 cursor-pointer items-center text-[12px] font-bold">
+              <p className="flex gap-[4px] md:gap-2 cursor-pointer items-center text-[10px] md:text-[12px] font-bold">
                 <Image
                   height="100"
                   width="100"
-                  className="w-[16px] h-[16px]"
+                  className="w-[12px] md:w-[16px] h-[13px] md:h-[16px]"
                   src="/images/video.png"
                   alt="video"
                 />
                 Video
               </p>
-              <p className="flex gap-2 cursor-pointer items-center text-[12px] font-bold">
+              <p className="flex gap-[4px] md:gap-2 cursor-pointer items-center text-[10px] md:text-[12px] font-bold">
                 <Image
                   height="100"
                   width="100"
-                  className="w-[16px] h-[16px]"
+                  className="w-[12px] md:w-[16px] h-[12px] md:h-[16px]"
                   src="/images/attachment.png"
                   alt="Attachment"
                 />
@@ -194,12 +199,12 @@ const MainFeed: React.FC<MainFeedProps> = ({
                     hashtag: !handleFileUpload.hashtag,
                   })
                 }
-                className="flex gap-2 cursor-pointer items-center text-[12px] font-bold"
+                className="flex gap-[4px] md:gap-2 cursor-pointer items-center text-[10px] md:text-[12px] font-bold"
               >
                 <Image
                   height="100"
                   width="100"
-                  className="w-[16px] h-[16px]"
+                  className="w-[12px] md:w-[16px] h-[12px] md:h-[16px]"
                   src="/images/hashtag.png"
                   alt="chef"
                 />
@@ -213,7 +218,7 @@ const MainFeed: React.FC<MainFeedProps> = ({
                 description.length === 0
                   ? 'opacity-[60%] '
                   : 'opacity-[100%] duration-150 hover:scale-[1.05]'
-              } bg-myblue py-1 px-6 font-semibold rounded-[10px]`}
+              } bg-myblue text-[12px] md:text-[16px] py-1 px-2 md:px-6 font-semibold rounded-[10px]`}
             >
               {loading.postLoading ? <p className="loader" /> : <p>Post</p>}
             </button>

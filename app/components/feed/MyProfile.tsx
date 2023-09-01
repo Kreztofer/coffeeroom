@@ -50,7 +50,7 @@ const MyProfile: React.FC<MyModalProps> = ({ currentUser }) => {
   const year = date.getFullYear();
 
   return (
-    <div className="w-[23%]">
+    <div className="lg:block w-[23%] hidden">
       <div className="flex rounded-lg bg-white shadow-md h-auto m-auto flex-col gap-4 p-4">
         <div className="flex items-center gap-[10px]">
           {profileLoading.isLoading ? (

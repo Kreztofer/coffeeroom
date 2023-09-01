@@ -43,7 +43,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ currentUser }) => {
     }
   };
   return (
-    <div className="w-[35%]">
+    <div className="hidden md:block w-[35%]">
       <div className="flex rounded-lg bg-white shadow-md h-auto m-auto flex-col gap-4 p-4">
         <hr />
         <div className="flex flex-col gap-4">

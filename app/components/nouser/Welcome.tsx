@@ -11,7 +11,7 @@ const Welcome = () => {
   const year = date.getFullYear();
 
   return (
-    <div className="w-[23%]">
+    <div className="lg:w-[23%] w-[100%]">
       <div className="flex rounded-lg bg-white shadow-md h-auto m-auto flex-col gap-4 p-4">
         <h2>
           Welcome to the{' '}
@@ -33,7 +33,7 @@ const Welcome = () => {
           </button>
         </div>
       </div>
-      <div className="w-[95%] m-auto">
+      <div className="hidden lg:block w-[95%] m-auto">
         <div className="flex mt-4 w-full justify-between">
           <p className="underline text-[12px] text-gray-400">Privacy Terms</p>
           <p className="underline text-[12px] text-gray-400">Advertising</p>
