@@ -12,7 +12,6 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { signOut } from 'next-auth/react';
 import useProfileModal from '@/app/hooks/useProfileModal';
 import { SafeUser } from '@/app/types';
-import useLoadingModal from '@/app/hooks/useLoading';
 import useProfileLoadingModal from '@/app/hooks/useProfileLoading';
 
 interface ProfileProps {

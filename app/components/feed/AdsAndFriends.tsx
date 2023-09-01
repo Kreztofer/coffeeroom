@@ -26,8 +26,8 @@ const AdsAndFriends: React.FC<AdsandFrinedsProps> = ({
             alt="banner"
           />
           <div className="flex font-bold justify-between text-[#838282] text-[12px]">
-            <p>Mikewatches</p>
-            <p>mikewatches.com</p>
+            <p>FLEXSTORE</p>
+            <p className="hover:text-myblue cursor-pointer">flexstore.com</p>
           </div>
           <p className="text-[#838282] text-[12px]">
             Your pathway to having class and prestige with some of the best
