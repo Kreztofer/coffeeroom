@@ -7,6 +7,8 @@ import { handleFriendsText } from '@/app/hooks/handleFriendsText';
 import useAddFriends from '@/app/hooks/useAddFriends';
 import { SafeUser } from '@/app/types';
 import { Post } from '@prisma/client';
+import { useParams } from 'next/navigation';
+import useEditProfileModal from '@/app/hooks/useEditProfileModal';
 interface ProfilePageClientProps {
   profile: SafeUser | null;
   posts?: Post[] | null;
@@ -18,6 +20,10 @@ const ProfilePageClient: React.FC<ProfilePageClientProps> = ({
   posts,
   currentUserId,
 }) => {
+  // @ts-ignore
+  const { profileId } = useParams();
+  const editProfileModal = useEditProfileModal();
+
   const { patch, checked } = useAddFriends({
     userId: currentUserId,
     friendId: currentUserId,
@@ -58,11 +64,19 @@ const ProfilePageClient: React.FC<ProfilePageClientProps> = ({
                 {handleFriendsText(profile?.friends.length)}
               </div>
 
-              <div onClick={(e) => patch(e, profile?.id)}>
-                <button className="bg-myblue hover:scale-[1.05] duration-100 rounded-md text-white px-4 py-2">
-                  {checked ? <> Remove Friend</> : <>Add friend</>}
-                </button>
-              </div>
+              {profileId != currentUserId ? (
+                <div onClick={(e) => patch(e, profile?.id)}>
+                  <button className="bg-myblue hover:scale-[1.05] duration-100 rounded-md text-white px-4 py-2">
+                    {checked ? <> Remove Friend</> : <>Add friend</>}
+                  </button>
+                </div>
+              ) : (
+                <div onClick={editProfileModal.onOpen}>
+                  <button className="bg-myblue hover:scale-[1.05] duration-100 rounded-md text-white px-4 py-2">
+                    Edit Profile
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
