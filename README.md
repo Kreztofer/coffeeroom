@@ -8,5 +8,5 @@ The frontend of this application was written with Nextjs and Typescript and the 
 
  visit website https://coffeeroom.vercel.app/
 
-![](/public/images/gitimg.png)
+![](public/images/gitimg.png)
 
