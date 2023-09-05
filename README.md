@@ -1,4 +1,4 @@
-# ereumX
+# coffeeroom
 
 This repo contains the code of the coffeeroom application, This is a modern social media application that was designed and developed to bring individuals of various occupations together
 
